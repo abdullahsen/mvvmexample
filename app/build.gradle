@@ -18,11 +18,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "API_URL", "\"https://api.openweathermap.org/data/2.5/\""
+            buildConfigField "String", "API_KEY", "\"6559bef23ba4a60aafa0185433188911\""
+            debuggable true
+        }
+
         release {
             minifyEnabled false
+            buildConfigField "String", "API_URL", "\"https://api.openweathermap.org/data/2.5/\""
+            buildConfigField "String", "API_KEY", "\"6559bef23ba4a60aafa0185433188911\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -30,7 +40,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    // Enable view binding
+    buildFeatures {
+        viewBinding true
+    }
+
 }
+
 
 dependencies {
 
@@ -38,9 +55,12 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${rootProject.ext.appCompatVersion}"
     implementation "com.google.android.material:material:${rootProject.ext.materialVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.constraintLayoutVersion}"
+
     // Koin main features for Android
     implementation "io.insert-koin:koin-android:${rootProject.ext.koinVersion}"
 
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.viewModelScopeVersion}"
+    
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
 
