@@ -1,7 +1,7 @@
 package com.asen.mvvmexample.service.repository
 
-import com.asen.mvvmexample.service.api.WeatherService
+import com.asen.mvvmexample.service.response.WeatherForecast
 
-class WeatherRepository(private val weatherService: WeatherService) {
-    suspend fun getWeatherData() = weatherService.getWeather()
+interface WeatherRepository {
+    suspend fun getWeatherData(): WeatherForecast
 }
