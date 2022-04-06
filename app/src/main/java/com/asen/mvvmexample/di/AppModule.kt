@@ -8,7 +8,7 @@ import com.asen.mvvmexample.service.repository.WeatherRepositoryImpl
 import com.asen.mvvmexample.ui.viewmodel.WeatherViewModel
 import com.asen.mvvmexample.usecase.GetWeatherUseCase
 import com.asen.mvvmexample.usecase.GetWeatherUseCaseImpl
-import com.asen.mvvmexample.usecase.mapper.Mapper
+import com.asen.mvvmexample.usecase.mapper.WeatherMapper
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -21,10 +21,10 @@ import retrofit2.Retrofit
 val appModules = module {
     factory { AuthInterceptor() }
     factory { provideOkHttpClient(get()) }
-    factory { provideCatFactApi(get()) }
+    factory { provideWeatherApi(get()) }
     single { provideRetrofit(get()) }
     single<WeatherRepository> { WeatherRepositoryImpl(get()) }
-    single { Mapper() }
+    single { WeatherMapper() }
     single<GetWeatherUseCase> { GetWeatherUseCaseImpl(get(), get()) }
     viewModel { WeatherViewModel(get()) }
 }
@@ -49,5 +49,5 @@ private fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient 
     return OkHttpClient().newBuilder().addInterceptor(authInterceptor).build()
 }
 
-private fun provideCatFactApi(retrofit: Retrofit): WeatherService =
+private fun provideWeatherApi(retrofit: Retrofit): WeatherService =
     retrofit.create(WeatherService::class.java)

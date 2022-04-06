@@ -3,7 +3,7 @@ package com.asen.mvvmexample.usecase.mapper
 import com.asen.mvvmexample.model.WeatherModel
 import com.asen.mvvmexample.service.response.WeatherForecast
 
-class Mapper {
+class WeatherMapper {
     fun map(weatherData: WeatherForecast): WeatherModel {
         return WeatherModel(
             name = weatherData.name,

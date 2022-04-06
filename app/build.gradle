@@ -68,7 +68,13 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${rootProject.ext.kotlinSerializationVersion}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${rootProject.ext.kotlinSerializationConverterVersion}"
 
+    //Testing libraries
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
+    testImplementation "com.google.truth:truth:${rootProject.ext.truthVersion}"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:${rootProject.ext.mockitoKotlinVersion}"
+    testImplementation "org.mockito:mockito-inline:${rootProject.ext.mockitoKotlinVersion}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.ext.coroutinesTestVersion}"
+    testImplementation "androidx.arch.core:core-testing:${rootProject.ext.coreTestingVersion}"
     androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.androidXTestExtKotlinRunnerVersion}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.espressoVersion}"
 }

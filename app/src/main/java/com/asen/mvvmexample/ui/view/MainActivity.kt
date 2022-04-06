@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initObservers()
+        viewModel.loadWeather()
     }
 
     private fun initObservers() {
