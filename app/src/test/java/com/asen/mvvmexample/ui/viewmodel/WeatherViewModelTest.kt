@@ -19,7 +19,8 @@ import org.mockito.kotlin.whenever
 class WeatherViewModelTest {
     private lateinit var weatherViewModel: WeatherViewModel
     private val useCase = mock<GetWeatherUseCase>()
-    private val observer = mock<Observer<WeatherViewModelUIState>>()
+    private val uiStateObserver = mock<Observer<WeatherViewModelUIState>>()
+    private val navigationObserver = mock<Observer<WeatherViewModelNavigationTarget>>()
 
     @get:Rule
     val instantTaskExecutionRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
@@ -30,26 +31,32 @@ class WeatherViewModelTest {
     @Before
     fun setUp() {
         weatherViewModel = WeatherViewModel(useCase)
-        weatherViewModel.uiState.observeForever(observer)
+        weatherViewModel.uiState.observeForever(uiStateObserver)
+        weatherViewModel.navigation.observeForever(navigationObserver)
     }
 
     @Test
     fun `verify successful response shows WeatherLoaded ui state`() =
         mainCoroutineRule.runBlockingTest {
             whenever(useCase.execute()).thenReturn(Result.OnSuccess(weatherModel))
-            weatherViewModel.loadWeather()
-            verify(observer).onChanged(WeatherViewModelUIState.ShowLoading)
-            verify(observer).onChanged(WeatherViewModelUIState.WeatherLoaded(weatherModel))
+            weatherViewModel.dispatch(WeatherViewModelEvent.LoadWeather)
+            verify(uiStateObserver).onChanged(WeatherViewModelUIState.ShowLoading)
+            verify(uiStateObserver).onChanged(WeatherViewModelUIState.WeatherLoaded(weatherModel))
         }
 
     @Test
     fun `verify unsuccessful response shows Error state`() = mainCoroutineRule.runBlockingTest {
         whenever(useCase.execute()).thenReturn(Result.OnError)
-        weatherViewModel.loadWeather()
-        verify(observer).onChanged(WeatherViewModelUIState.ShowLoading)
-        verify(observer).onChanged(WeatherViewModelUIState.ShowError)
+        weatherViewModel.dispatch(WeatherViewModelEvent.LoadWeather)
+        verify(uiStateObserver).onChanged(WeatherViewModelUIState.ShowLoading)
+        verify(uiStateObserver).onChanged(WeatherViewModelUIState.ShowError)
     }
 
+    @Test
+    fun `verify detail click event navigates to Detail screen` ()= mainCoroutineRule.runBlockingTest {
+        weatherViewModel.dispatch(WeatherViewModelEvent.DetailButtonClick(weatherModel))
+        verify(navigationObserver).onChanged(WeatherViewModelNavigationTarget.WeatherDetail(weatherModel))
+    }
 
     private val weatherModel = WeatherModel(
         name = "Amsterdam",
