@@ -38,7 +38,7 @@ class MoviesOverviewViewModelTest {
     }
 
     @Test
-    fun `verify successful movies response shows WeatherLoaded ui state`() = runTest {
+    fun `verify successful movies response is shown in loaded ui state`() = runTest {
         whenever(repository.getMoviesFromService(any())).thenReturn(flow {
             emit(MOVIE_LIST)
         })
@@ -53,7 +53,7 @@ class MoviesOverviewViewModelTest {
     }
 
     @Test
-    fun `verify empty movie response shows Empty state`() = runTest {
+    fun `verify empty movie response is showm in Empty state`() = runTest {
         whenever(repository.getMoviesFromService(any())).thenReturn(flow {
             emit(emptyList())
         })

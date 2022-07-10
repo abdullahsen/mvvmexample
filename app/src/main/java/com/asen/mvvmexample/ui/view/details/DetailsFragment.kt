@@ -1,4 +1,4 @@
-package com.asen.mvvmexample.ui.view.detail
+package com.asen.mvvmexample.ui.view.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
