@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
     id 'androidx.navigation.safeargs'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -18,18 +19,25 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging true
+            }
+        }
+    }
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "API_URL", "\"https://api.openweathermap.org/data/2.5/\""
-            buildConfigField "String", "API_KEY", "\"6559bef23ba4a60aafa0185433188911\""
+            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"7f05a03f5bb0ba1228c84c797e6cfe23\""
             debuggable true
         }
 
         release {
             minifyEnabled false
-            buildConfigField "String", "API_URL", "\"https://api.openweathermap.org/data/2.5/\""
-            buildConfigField "String", "API_KEY", "\"6559bef23ba4a60aafa0185433188911\""
+            buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"7f05a03f5bb0ba1228c84c797e6cfe23\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -63,7 +71,11 @@ dependencies {
     implementation "io.insert-koin:koin-android:${rootProject.ext.koinVersion}"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.viewModelScopeVersion}"
-    
+
+    implementation "androidx.room:room-ktx:${rootProject.ext.roomVersion}"
+    implementation "androidx.room:room-runtime:${rootProject.ext.roomVersion}"
+    kapt "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
 
@@ -74,7 +86,13 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${rootProject.ext.navigationVersion}"
     implementation "androidx.navigation:navigation-ui-ktx:${rootProject.ext.navigationVersion}"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Paging
+    implementation "androidx.paging:paging-runtime:${rootProject.ext.pagingVersion}"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}"
+    kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"
 
     //Testing libraries
     testImplementation "junit:junit:${rootProject.ext.junitVersion}"
@@ -83,10 +101,18 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:${rootProject.ext.mockitoKotlinVersion}"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.ext.coroutinesTestVersion}"
     testImplementation "androidx.arch.core:core-testing:${rootProject.ext.coreTestingVersion}"
-    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.androidXTestExtKotlinRunnerVersion}"
+
+    androidTestImplementation "androidx.test:core:${rootProject.ext.testCoreVersion}"
+    androidTestImplementation "androidx.test:core-ktx:${rootProject.ext.testCoreVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.junitExtVersion}"
+    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:${rootProject.ext.mockitoKotlinVersion}"
+    androidTestImplementation "org.mockito:mockito-inline:${rootProject.ext.mockitoKotlinVersion}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.espressoVersion}"
     androidTestImplementation "androidx.navigation:navigation-testing:${rootProject.ext.navigationVersion}"
+    androidTestImplementation "androidx.arch.core:core-testing:${rootProject.ext.coreTestingVersion}"
+    androidTestImplementation "com.google.truth:truth:${rootProject.ext.truthVersion}"
+    androidTestImplementation "androidx.test:runner:${rootProject.ext.testRunnerVersion}"
+    androidTestImplementation "androidx.test:rules:${rootProject.ext.testRulesVersion}"
+
     debugImplementation "androidx.fragment:fragment-testing:${rootProject.ext.fragmentVersion}"
-
-
 }
